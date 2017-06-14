@@ -4,27 +4,29 @@ import struct
 from scipy import fromstring, int16
 import numpy as np
 from keras.models import Sequential
-from keras.layers import Dense, LSTM
+from keras.layers import Dense, LSTM, Dropout
 
 def get_dataset(file, samples, span):
     wavfile = '/data/input/' + file + '.wav'
     wr = wave.open(wavfile, "rb")
     origin = wr.readframes(wr.getnframes())
-    data = origin[:samples * span * 4]
+    data = origin[44100 * 2:samples * span * 4 + 44100 * 2]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
     return X[::2], X[1::2]
 
 # samples
 N = 256
-span = 18000
+#span = 18000
 fr = 44100
+offset = fr * 2
 
 # learning params
 samples = 32 #2 ^5 +1
 batch_num = samples * 512
+span = batch_num + 100
 dims = 4 * N
-epochs = 3
+epochs = 5
 test_files = ['battle1', 'battle2', 'boss1', 'boss2', 'raid_ev1', 'raid_ev2', 'raid_ev4', 'solo_boss2', 'solo_boss6']
 files_num = len(test_files)
 
@@ -64,6 +66,11 @@ def pack_step(data, batch_num, samples, dims):
     temp = data[:batch_num + samples]
     test = temp.reshape((batch_num + samples, 1, dims))
     return test
+    # arr = []
+    # for i in range(batch_num // samples + 1):
+    #     for n in range(samples):
+    #         arr.append(temp[i * samples +n])
+    # return np.reshape(np.array(arr), (batch_num + samples, 1, dims))
 
 
 test = []
@@ -78,16 +85,19 @@ for file in test_files:
 #test = np.reshape(test, (files_num * samples, steps + 1, dims))
 
 model = Sequential()
-model.add(LSTM(256,
+model.add(LSTM(512,
               input_shape=(1, dims),
               batch_size=samples,
               #output_shape=(None, dims),
               return_sequences=True,
               activation='relu',
               stateful=True))
-model.add(LSTM(256, stateful=True, return_sequences=True))
-model.add(LSTM(256, stateful=True, return_sequences=False))
-model.add(Dense(dims, activation='tanh'))
+model.add(Dropout(0.5))
+model.add(LSTM(256, stateful=True, return_sequences=True, activation='relu'))
+model.add(Dropout(0.3))
+model.add(LSTM(256, stateful=True, return_sequences=False, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(dims))
 model.compile(loss='mse', optimizer='adam')
 
 for num in range(0, epochs):
@@ -100,4 +110,4 @@ for num in range(0, epochs):
         model.reset_states()
     print(num+1, '/', epochs, ' epoch is done!')
 
-model.save('/data/model/mcreator')
+model.save('/data/model/mcreator_test3')

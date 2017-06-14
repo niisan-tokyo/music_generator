@@ -17,17 +17,17 @@ fn = wr.getnframes()
 model = load_model('/data/model/mcreator2')
 
 N = 256
-step = 2 ** 8 #512
-steps = 512
+steps = 128
 batch = 32
 start = 416500
-frames = 2000
+frames = 200
+samples = 32
 
 origin = wr.readframes(wr.getnframes())
 data = origin[start:start+N * (steps + 1) * 4]
 wr.close()
 
-X = np.frombuffer(data, dtype="int16") /  32768.0
+X = np.frombuffer(data, dtype="int16")
 left = X[::2]
 right = X[1::2]
 
@@ -86,29 +86,31 @@ def combine_wav (left, right,N):
 #======================
 
 # use model to create music
-Kl = fourier(left, N, step)
-Kr = fourier(right, N, step)
+Kl = fourier(left, N, samples * steps)
+Kr = fourier(right, N, samples * steps)
 sample = create_test_data(Kl, Kr)
+sample = np.reshape(sample, (samples, steps, 4 * N))
 music = []
 
-for in_data in sample:
-    music.append(np.reshape(in_data, (1, 4 * N)))
+for i in range(steps):
+    in_data = sample[:, i, :]
+    model.predict(np.reshape(in_data, (samples, 1, 4 * N)))
+    #music.append(np.reshape(in_data, (32, 4 * N)))
 
 for i in range(0, frames):
-    if i % 100 == 0:
-        print('progress: ', i, '/', frames)
+    if i % 50 == 0:
+        print('進捗: ', i, '/', frames)
 
-    music_data = model.predict(np.reshape(sample, (1, step, 4 * N)))
-    music.append(music_data)
-    sample = np.delete(sample, 0, 0)
-    sample = np.append(sample, music_data, 0)
+    music_data = model.predict(np.reshape(in_data, (samples, 1, 4 * N)))
+    music.append(np.reshape(music_data, (samples, 4 * N)))
+    in_data = music_data
 
 music = np.array(music)
 #===============
 
 # coodinate music data
 print(music.shape)
-music = np.reshape(music, (frames + step, 4*N))
+music = np.reshape(music, (frames * samples, 4*N))
 print(music.shape)
 
 kl, kr = data_spliter(music, N)
@@ -118,6 +120,7 @@ print(kl.shape)
 # output wave file
 raw_data = combine_wav(inverse_fourier(kl), inverse_fourier(kr), N)
 raw_data = raw_data[N * step:] *  32768
+plot(raw_data[1:2000])
 raw_data = raw_data.astype('int16')
 outf = '/data/output/test.wav'
 outd = struct.pack("h" * len(raw_data), *raw_data)
