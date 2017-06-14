@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import wave
 import struct
+import glob
 from scipy import fromstring, int16
 import numpy as np
 from keras.models import Sequential
@@ -27,7 +28,7 @@ batch_size = 32
 samples = batch_size
 dims = 4 * N
 epochs = 1
-test_files = ['battle']#, 'battle2', 'boss1', 'boss2', 'raid_ev1', 'raid_ev2', 'raid_ev4', 'solo_boss2', 'solo_boss6']
+test_files = glob.glob('/data/input/*.wav')
 files_num = len(test_files)
 
 # functions
