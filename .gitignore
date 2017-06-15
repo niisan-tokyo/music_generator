@@ -1,3 +1,4 @@
 data/input/*
 data/model/*
 data/output/*
+*.ipynb
