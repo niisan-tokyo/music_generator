@@ -7,18 +7,17 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, LSTM, Dropout
 
-def get_dataset(filename, samples, span):
+def get_dataset(filename, samples, span, offset=0):
     wavfile = filename
     wr = wave.open(wavfile, "rb")
     origin = wr.readframes(wr.getnframes())
-    data = origin[44100 * 2:samples * span * 4 + 44100 * 2]
+    data = origin[offset:samples * span * 4 + offset]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
     return X[::2], X[1::2]
 
 # samples
 N = 256
-#span = 18000
 fr = 44100
 offset = fr * 2
 
@@ -27,8 +26,9 @@ samples = 32 #2 ^5 +1
 batch_num = samples * 512
 span = batch_num + 100
 dims = 4 * N
-epochs = 5
+epochs = 10
 test_files = glob.glob('/data/input/*.wav')
+print(test_files)
 files_num = len(test_files)
 
 
@@ -75,9 +75,8 @@ def pack_step(data, batch_num, samples, dims):
 
 
 test = []
-for file in test_files:
-    print('o-ke')
-    left, right = get_dataset(file, N, span)
+for filename in test_files:
+    left, right = get_dataset(filename, N, span, offset=offset)
     Kl, Kr = fourier(left, N, span), fourier(right, N, span)
     data = create_test_data(Kl, Kr)
     data_rs = pack_step(data, batch_num, samples, dims)
@@ -86,17 +85,17 @@ for file in test_files:
 #test = np.reshape(test, (files_num * samples, steps + 1, dims))
 
 model = Sequential()
-model.add(LSTM(512,
+model.add(LSTM(256,
               input_shape=(1, dims),
               batch_size=samples,
               #output_shape=(None, dims),
               return_sequences=True,
-              activation='relu',
+              activation='tanh',
               stateful=True))
 model.add(Dropout(0.5))
-model.add(LSTM(256, stateful=True, return_sequences=True, activation='relu'))
+model.add(LSTM(256, stateful=True, return_sequences=True, activation='tanh'))
 model.add(Dropout(0.3))
-model.add(LSTM(256, stateful=True, return_sequences=False, activation='relu'))
+model.add(LSTM(256, stateful=True, return_sequences=False, activation='tanh'))
 model.add(Dropout(0.2))
 model.add(Dense(dims))
 model.compile(loss='mse', optimizer='adam')
@@ -111,4 +110,4 @@ for num in range(0, epochs):
         model.reset_states()
     print(num+1, '/', epochs, ' epoch is done!')
 
-model.save('/data/model/mcreator_test3')
+model.save('/data/model/mcreator')

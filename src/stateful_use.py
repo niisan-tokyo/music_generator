@@ -89,11 +89,11 @@ def combine_wav (left, right,N):
 Kl = fourier(left, N, samples * steps)
 Kr = fourier(right, N, samples * steps)
 sample = create_test_data(Kl, Kr)
-sample = np.reshape(sample, (samples, steps, 4 * N))
+sample = np.reshape(sample, (samples * steps, 4 * N))
 music = []
 
 for i in range(steps):
-    in_data = sample[:, i, :]
+    in_data = np.reshape(sample[i * samples:(i + 1) * samples], (samples, 1, 4 * N))
     model.predict(np.reshape(in_data, (samples, 1, 4 * N)))
     #music.append(np.reshape(in_data, (32, 4 * N)))
 
