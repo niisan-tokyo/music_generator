@@ -26,10 +26,10 @@ samples = 32 #2 ^5 +1
 batch_num = samples * 128
 span = batch_num + 100
 dims = 4 * N
-epochs = 10
+epochs = 30
 test_files = glob.glob('/data/input/*.wav')
 print(test_files)
-#test_files = test_files[:1]
+test_files = test_files[1:2]
 files_num = len(test_files)
 
 
@@ -86,17 +86,22 @@ for filename in test_files:
 #test = np.reshape(test, (files_num * samples, steps + 1, dims))
 
 model = Sequential()
-model.add(LSTM(512,
+model.add(LSTM(256,
               input_shape=(1, dims),
               batch_size=samples,
               #output_shape=(None, dims),
               return_sequences=True,
               #activation='tanh',
               stateful=True))
-model.add(LSTM(512, stateful=True, return_sequences=True))
-model.add(LSTM(512, stateful=True, return_sequences=False))
+model.add(Dropout(0.5))
+model.add(LSTM(256, stateful=True, return_sequences=True))
+model.add(Dropout(0.3))
+model.add(LSTM(256, stateful=True, return_sequences=True))
+model.add(Dropout(0.1))
+model.add(LSTM(256, stateful=True, return_sequences=False))
+model.add(Dense(256, activation='relu'))
 model.add(Dense(dims))
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='rmsprop')
 
 for num in range(0, epochs):
     print(num + 1, '/', epochs, ' start')
@@ -108,4 +113,4 @@ for num in range(0, epochs):
         model.reset_states()
     print(num+1, '/', epochs, ' epoch is done!')
 
-model.save('/data/model/mcreator10')
+model.save('/data/model/mcreator12')
