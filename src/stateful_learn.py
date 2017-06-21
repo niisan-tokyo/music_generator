@@ -21,14 +21,15 @@ N = 1024
 EN = N // 2
 fr = 44100
 offset = fr * 2
+HAMMING = np.hamming(N)
 
 # learning params
 samples = 32 #2 ^5 +1
 batch_num = samples * 128
-span = batch_num + 100
+span = batch_num // 2 + 100
 dims = 4 * EN
 neuron = 256
-epochs = 30
+epochs = 10
 test_files = glob.glob('/data/input/*.wav')
 print(test_files)
 #test_files = test_files[1:2]
@@ -37,8 +38,9 @@ files_num = len(test_files)
 
 def fourier (x, n, w):
     K = []
-    for i in range(0, w-2):
-        sample = x[i * n:( i + 1) * n]
+    for i in range(0, 2 * w-2):
+        start = i * n // 2
+        sample = x[start:start + n] * HAMMING
         partial = np.fft.fft(sample) * 100
         K.append(partial[: n // 2])
 
@@ -96,7 +98,7 @@ model.add(LSTM(neuron,
               #activation='tanh',
               stateful=True))
 model.add(Dropout(0.5))
-model.add(LSTM(neuron, stateful=True, return_sequences=True, activation='tanh'))
+model.add(LSTM(neuron, stateful=True, return_sequences=True))
 model.add(Dropout(0.3))
 model.add(LSTM(neuron, stateful=True, return_sequences=False))
 model.add(Dense(dims))
