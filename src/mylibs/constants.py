@@ -8,11 +8,11 @@ offset = fr * 2
 
 # 学習用パラメータ
 samples = 32 #2 ^5 +1
-batch_num = samples * 128
+batch_num = samples * 160
 span = batch_num // 2 + 100
 dims = 4 * EN
-neuron = 128
-epochs = 2
+neuron = 256
+epochs = 20
 
 # フーリエのよくわからない因子
 fourier_factor = 100

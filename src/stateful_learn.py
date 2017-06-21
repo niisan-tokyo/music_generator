@@ -5,7 +5,8 @@ import glob
 from mylibs import constants as con
 from scipy import fromstring, int16
 import numpy as np
-from keras.models import Sequential
+import os.path
+from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
 
 
@@ -26,6 +27,9 @@ model.add(LSTM(con.neuron, stateful=True, return_sequences=False))
 model.add(Dense(con.dims))
 model.compile(loss='mse', optimizer='adam')
 
+if (os.path.exists(con.model_name)):
+    model = load_model(con.model_name)
+    
 for num in range(0, con.epochs):
     print(num + 1, '/', con.epochs, ' start')
     for filename in test_files:
