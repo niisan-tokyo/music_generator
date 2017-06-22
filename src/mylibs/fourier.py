@@ -33,7 +33,7 @@ def fourier(x):
     for i in range(0, con.span - 1):
         sample = x[i * n:(i + 1) * n]
         partial = np.fft.fft(sample) * factor
-        K.append(partial[:n // 2])
+        K.append(partial[:n])
 
     return K
 
