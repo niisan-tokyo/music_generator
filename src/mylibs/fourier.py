@@ -8,7 +8,6 @@ def hamming_fourier (x):
     factor = con.fourier_factor
     for i in range(0, 2 * con.span - 1):
         start = i * n // 2
-        part = x[start:start + n]
         sample = x[start:start + n] * HAMMING
         partial = np.fft.fft(sample) * factor
         K.append(partial[: n // 2])
@@ -34,7 +33,7 @@ def fourier(x):
     for i in range(0, con.span - 1):
         sample = x[i * n:(i + 1) * n]
         partial = np.fft.fft(sample) * factor
-        K.append(partial)
+        K.append(partial[:n // 2])
 
     return K
 
@@ -45,5 +44,5 @@ def inverse_fourier(k):
         inv = np.fft.ifft(sample)
         ret.extend(inv.real / factor)
 
-    print (len(sample))
+    print (len(ret))
     return ret

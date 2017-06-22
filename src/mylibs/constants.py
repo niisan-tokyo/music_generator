@@ -15,7 +15,7 @@ neuron = 256
 epochs = 20
 
 # フーリエのよくわからない因子
-fourier_factor = 100
+fourier_factor = 10
 inverse_fourier_factor = 10
 
 # モデル名
