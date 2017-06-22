@@ -31,11 +31,12 @@ def create_test_data(left, right):
 
 def pack_step(data, batch_num, samples, dims):
     temp = data[:batch_num + samples]
-    test = temp.reshape((-1, 1, dims // 2))
+    test = temp.reshape((-1, 1, dims))
+    print(test.shape)
     return test
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[1:2]
+#test_files = test_files[1:2]
 for filename in test_files:
     left, right = get_dataset(filename, con.N, con.span, offset=con.offset)
     Kl, Kr = fourier.fourier(left), fourier.fourier(right)
@@ -49,7 +50,7 @@ filename = test_files[0]
 outfile = filename.replace('.wav', '.data.npy')
 print(outfile)
 data = np.load(outfile)
-Kl, Kr = combine.data_spliter(np.reshape(data, (-1, con.dims)), con.N)
+Kl, Kr = combine.data_spliter(np.reshape(data, (-1, con.dims)))
 print(Kl.shape)
 print(Kr.shape)
 raw = combine.normal_combine(Kl, Kr)

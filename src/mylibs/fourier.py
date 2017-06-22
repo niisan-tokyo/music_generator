@@ -29,11 +29,12 @@ def inverse_hamming_fourier(k):
 def fourier(x):
     K = []
     n = con.N
+    en = con.EN
     factor = con.fourier_factor
     for i in range(0, con.span - 1):
         sample = x[i * n:(i + 1) * n]
         partial = np.fft.fft(sample) * factor
-        K.append(partial[:n])
+        K.append(partial[:en])
 
     return K
 
