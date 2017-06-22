@@ -4,9 +4,10 @@ import numpy as np
 def data_spliter(data):
     num = con.EN
     Kl_dash = data[:, : num] + data[:, num:2 * num] * 1j
-    Kl_dash = np.append(Kl_dash, np.flip(np.conj(Kl_dash[:, 1:]), 1), 1)
+    Kl_dash = np.append(Kl_dash, np.flip(np.conj(Kl_dash[:, 1:-1]), 1), 1)
     Kr_dash = data[:, 2 * num:3 * num] + data[:, 3 * num:4 * num] * 1j
-    Kr_dash = np.append(Kr_dash, np.flip(np.conj(Kr_dash[:, 1:]), 1), 1)
+    Kr_dash = np.append(Kr_dash, np.flip(np.conj(Kr_dash[:, 1:-1]), 1), 1)
+    print(Kl_dash.shape)
 
     return Kl_dash, Kr_dash
 
