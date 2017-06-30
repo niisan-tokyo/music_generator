@@ -8,6 +8,7 @@ import numpy as np
 import os.path
 from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
+from keras.callbacks import Callback
 
 
 test_files = glob.glob('/data/input/*.data.npy')
@@ -29,16 +30,22 @@ model.compile(loss='mse', optimizer='adam')
 
 if (os.path.exists(con.model_name)):
     model = load_model(con.model_name)
-    
+
+class ResetStates(Callback):
+    def __init__(self):
+        self.counter = 0
+
+    def on_batch_begin(self, batch, logs={}):
+        self.model.reset_states()
+
 for num in range(0, con.epochs):
     print(num + 1, '/', con.epochs, ' start')
     for filename in test_files:
         one_data = np.load(filename)
         in_data = one_data[:-con.samples]
         out_data = np.reshape(one_data[con.samples:], (con.batch_num, con.dims))
-        model.fit(in_data, out_data, epochs=1, shuffle=False, batch_size=con.samples)
+        model.fit(in_data, out_data, callbacks=[ResetStates()], epochs=con.local_epocks, shuffle=False, batch_size=con.samples)
 
-        model.reset_states()
     print(num+1, '/', con.epochs, ' epoch is done!')
 
 model.save(con.model_name)

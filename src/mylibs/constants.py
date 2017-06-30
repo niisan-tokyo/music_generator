@@ -8,15 +8,16 @@ offset = fr * 2
 
 # 学習用パラメータ
 samples = 32 #2 ^5 +1
-batch_num = samples * 160
+batch_num = samples * 256
 span = batch_num + 100
 dims = 4 * EN
 neuron = 512
-epochs = 10
+epochs = 2
+local_epocks = 5
 
 # フーリエのよくわからない因子
 fourier_factor = 10
 inverse_fourier_factor = 10
 
 # モデル名
-model_name = '/data/model/mcreator16'
+model_name = '/data/model/mcreator18'
