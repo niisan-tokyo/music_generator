@@ -13,11 +13,11 @@ span = batch_num + 100
 dims = 4 * EN
 neuron = 512
 epochs = 2
-local_epocks = 5
+local_epocks = 10
 
 # フーリエのよくわからない因子
 fourier_factor = 10
 inverse_fourier_factor = 10
 
 # モデル名
-model_name = '/data/model/mcreator18'
+model_name = '/data/model/mcreator20'

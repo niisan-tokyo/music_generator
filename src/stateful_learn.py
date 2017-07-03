@@ -22,11 +22,11 @@ model.add(LSTM(con.neuron,
               #activation='tanh',
               stateful=True))
 model.add(Dropout(0.5))
-model.add(LSTM(con.neuron, stateful=True, return_sequences=True))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
 model.add(Dropout(0.3))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=False))
 model.add(Dense(con.dims))
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mse', optimizer='rmsprop')
 
 if (os.path.exists(con.model_name)):
     model = load_model(con.model_name)
