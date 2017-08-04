@@ -11,13 +11,13 @@ samples = 32 #2 ^5 +1
 batch_num = samples * 256
 span = batch_num + 100
 dims = 4 * EN
-neuron = 512
-epochs = 2
-local_epocks = 10
+neuron = 256
+epochs = 1
+local_epocks = 100
 
 # フーリエのよくわからない因子
 fourier_factor = 10
 inverse_fourier_factor = 10
 
 # モデル名
-model_name = '/data/model/mcreator20'
+model_name = '/data/model/localize_103times'

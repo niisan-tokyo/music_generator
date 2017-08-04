@@ -21,15 +21,15 @@ model.add(LSTM(con.neuron,
               return_sequences=True,
               #activation='tanh',
               stateful=True))
-model.add(Dropout(0.5))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
-model.add(Dropout(0.3))
-model.add(LSTM(con.neuron, stateful=True, return_sequences=False))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
 model.add(Dense(con.dims))
-model.compile(loss='mse', optimizer='rmsprop')
+model.compile(loss='mse', optimizer='adam')
 
 if (os.path.exists(con.model_name)):
     model = load_model(con.model_name)
+
+test_files = test_files[1:2]
 
 class ResetStates(Callback):
     def __init__(self):
