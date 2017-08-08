@@ -19,7 +19,7 @@ model.add(LSTM(con.neuron,
               batch_size=con.samples,
               #output_shape=(None, dims),
               return_sequences=True,
-              #activation='tanh',
+              activation='tanh',
               stateful=True))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
