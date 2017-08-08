@@ -21,8 +21,11 @@ model.add(LSTM(con.neuron,
               return_sequences=True,
               activation='tanh',
               stateful=True))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='relu'))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='relu'))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
-model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='relu'))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='tanh'))
 model.add(Dense(con.dims))
 model.compile(loss='mse', optimizer='adam')
 

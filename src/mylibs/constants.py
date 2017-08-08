@@ -13,11 +13,11 @@ span = batch_num + 100
 dims = 4 * EN
 neuron = 256
 epochs = 1
-local_epocks = 200
+local_epocks = 100
 
 # フーリエのよくわからない因子
 fourier_factor = 10
 inverse_fourier_factor = 10
 
 # モデル名
-model_name = '/data/model/localize_105times'
+model_name = '/data/model/localize_106times'
