@@ -14,16 +14,19 @@ from keras import backend as K
 
 test_files = glob.glob('/data/input/*.data.npy')
 
+def tanh(x):
+    return con.fourier_factor * K.tanh(x)
+
 model = Sequential()
 model.add(LSTM(con.neuron,
               input_shape=(1, con.dims),
               batch_size=con.samples,
               #output_shape=(None, dims),
               return_sequences=True,
-              activation='tanh',
+              activation='sigmoid',
               stateful=True))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
-model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='tanh'))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
 model.add(Dense(con.dims))
 model.compile(loss='mse', optimizer='adam')
 
