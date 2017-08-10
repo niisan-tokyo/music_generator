@@ -9,6 +9,7 @@ import os.path
 from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
 from keras.callbacks import Callback
+from keras import backend as K
 
 
 test_files = glob.glob('/data/input/*.data.npy')
@@ -22,7 +23,7 @@ model.add(LSTM(con.neuron,
               activation='tanh',
               stateful=True))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
-model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
+model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='tanh'))
 model.add(Dense(con.dims))
 model.compile(loss='mse', optimizer='adam')
 
@@ -35,7 +36,7 @@ class ResetStates(Callback):
     def __init__(self):
         self.counter = 0
 
-    def on_batch_begin(self, batch, logs={}):
+    def on_epoch_end(self, batch, logs={}):
         self.model.reset_states()
 
 for num in range(0, con.epochs):
