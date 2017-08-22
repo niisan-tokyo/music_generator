@@ -23,7 +23,7 @@ model.add(LSTM(con.neuron,
               batch_size=con.samples,
               #output_shape=(None, dims),
               return_sequences=True,
-              activation='sigmoid',
+              activation='tanh',
               stateful=True))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=True, activation='tanh'))
 model.add(LSTM(con.neuron, stateful=True, return_sequences=False, activation='relu'))
@@ -33,7 +33,7 @@ model.compile(loss='mse', optimizer='adam')
 if (os.path.exists(con.model_name)):
     model = load_model(con.model_name)
 
-test_files = test_files[1:2]
+test_files = test_files[:2]
 
 class ResetStates(Callback):
     def __init__(self):

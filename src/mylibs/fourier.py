@@ -10,7 +10,7 @@ def hamming_fourier (x):
         start = i * n // 2
         sample = x[start:start + n] * HAMMING
         partial = np.fft.fft(sample) * factor
-        K.append(partial[: n // 2])
+        K.append(partial[: con.EN])
 
     return K
 

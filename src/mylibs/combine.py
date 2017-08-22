@@ -29,7 +29,16 @@ def normal_combine(kl, kr):
 def hamming_combine (kl, kr):
     left = fourier.inverse_hamming_fourier(kl)
     right = fourier.inverse_hamming_fourier(kr)
-    left = left[:con.N // 2] + left[con.N // 2:]
-    right = right[:con.N // 2] + right[con.N // 2:]
+    left = hamming_summation(np.array(left))
+    right = hamming_summation(np.array(right))
 
     return combine_wav(left, right)
+
+def hamming_summation(k):
+    ret = np.zeros(len(k))
+    size = len(k) // con.N
+    for i in range(size):
+        n = i * con.N
+        ret[n // 2:n // 2 + con.N] += k[n:n+con.N]
+
+    return ret
