@@ -12,7 +12,7 @@ from keras.callbacks import Callback
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[:2]
+#test_files = test_files[:6]
 
 def get_dataset(filename):
     wavfile = filename
@@ -42,12 +42,21 @@ else:
 
 model.compile(loss='mse', optimizer='adam')
 
-for epoch in range(5):
-    for filename in test_files:
-        data = get_dataset(filename)
-        print('start')
-        model.fit(data, data, validation_split=0.1, epochs=5)
+arr = []
+for file in test_files:
+    arr.append(get_dataset(file))
 
-    print('epoch ', epoch, 'end')
+raw_data = np.array(arr)
+raw_data = np.reshape(raw_data, (-1, con.fr // 2))
+np.random.shuffle(raw_data)
+
+# for epoch in range(5):
+#     for filename in test_files:
+#         data = get_dataset(filename)
+#         print('start')
+#         model.fit(data, data, validation_split=0.1, epochs=5)
+#
+#     print('epoch ', epoch, 'end')
+model.fit(raw_data, raw_data, validation_split=0.05, epochs=2)
 
 model.save(con.model_encoder)
