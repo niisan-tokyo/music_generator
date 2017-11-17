@@ -12,7 +12,7 @@ from keras.callbacks import Callback
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[4]
+test_file = test_files[1]
 
 def get_dataset(filename):
     wavfile = filename
@@ -21,17 +21,18 @@ def get_dataset(filename):
     data = origin[:con.fr * 4 * 180]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
-    X = np.reshape(X, (-1, con.fr // 2))
+    X = np.reshape(X, (-1, con.fr // 2, 1))
     #print(X.shape)
     #print(len(X))
     return X
 
 model = load_model(con.model_encoder)
 
-data = get_dataset(test_files)
+data = get_dataset(test_file)
 res = []
 for datum in data:
-    res.append(model.predict(np.reshape(datum, (1, con.fr // 2))))
+    row = np.reshape(datum, (1, con.fr // 2, 1))
+    res.append(model.predict(row))
 
 row_data = np.array(res)
 mdata = np.reshape(res, (-1)) * 32768

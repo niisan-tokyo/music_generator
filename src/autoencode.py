@@ -8,11 +8,11 @@ import numpy as np
 import os.path
 from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
-from keras.callbacks import Callback
-from keras import backend as K
+from keras.layers.convolutional import Conv1D, UpSampling1D
+from keras.layers.pooling import MaxPooling1D
 
 test_files = glob.glob('/data/input/*.wav')
-#test_files = test_files[:6]
+test_files = test_files[:2]
 
 def get_dataset(filename):
     wavfile = filename
@@ -21,7 +21,7 @@ def get_dataset(filename):
     data = origin[:con.fr * 4 * 180]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
-    X = np.reshape(X, (-1, con.fr // 2))
+    X = np.reshape(X, (-1, con.fr // 4, 2))
     #print(X.shape)
     #print(len(X))
     return X
@@ -33,21 +33,32 @@ if os.path.exists(con.model_encoder):
     model = load_model(con.model_encoder)
 else:
     model = Sequential()
-    model.add(Dense(512, activation='sigmoid', input_dim=con.fr // 2))
-    #model.add(Dense(con.fr // 16, activation='relu'))
-    #model.add(Dense(512, activation='sigmoid'))
-    #model.add(Dense(con.fr // 16, activation='relu'))
-    #model.add(Dense(con.fr // 8, activation='relu'))
-    model.add(Dense(con.fr // 2, activation='tanh'))
+    model.add(Conv1D(16, 8, padding='same', input_shape=(con.fr // 4 , 2), activation='relu'))
+    model.add(MaxPooling1D(5, padding='same'))
+    model.add(Conv1D(8, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(3, padding='same'))
+    model.add(Conv1D(8, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(3, padding='same'))
+    model.add(Conv1D(4, 3, padding='same', activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(4, 3, padding='same', activation='relu'))
+    model.add(UpSampling1D(5))
+    model.add(Conv1D(8, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(3))
+    model.add(Conv1D(8, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(3))
+    model.add(Conv1D(16, 8, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(1, 8, padding='same', activation='tanh'))
 
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mae', optimizer='adam')
 
 arr = []
 for file in test_files:
     arr.append(get_dataset(file))
 
 raw_data = np.array(arr)
-raw_data = np.reshape(raw_data, (-1, con.fr // 2))
+raw_data = np.reshape(raw_data, (-1, con.fr // 4, 2))
 np.random.shuffle(raw_data)
 
 # for epoch in range(5):
@@ -57,6 +68,6 @@ np.random.shuffle(raw_data)
 #         model.fit(data, data, validation_split=0.1, epochs=5)
 #
 #     print('epoch ', epoch, 'end')
-model.fit(raw_data, raw_data, validation_split=0.05, epochs=2)
+model.fit(raw_data, raw_data, validation_split=0.05, epochs=10)
 
 model.save(con.model_encoder)
