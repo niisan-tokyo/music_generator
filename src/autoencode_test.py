@@ -14,6 +14,8 @@ from keras import backend as K
 test_files = glob.glob('/data/input/*.wav')
 test_file = test_files[1]
 
+frame = con.fr // 4
+
 def get_dataset(filename):
     wavfile = filename
     wr = wave.open(wavfile, "rb")
@@ -21,7 +23,7 @@ def get_dataset(filename):
     data = origin[:con.fr * 4 * 180]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
-    X = np.reshape(X, (-1, con.fr // 2, 1))
+    X = np.reshape(X, (-1, frame, 2))
     #print(X.shape)
     #print(len(X))
     return X
@@ -31,7 +33,7 @@ model = load_model(con.model_encoder)
 data = get_dataset(test_file)
 res = []
 for datum in data:
-    row = np.reshape(datum, (1, con.fr // 2, 1))
+    row = np.reshape(datum, (1, frame, 2))
     res.append(model.predict(row))
 
 row_data = np.array(res)
