@@ -35,6 +35,6 @@ raw_data = np.load('/data/input/raw_wave.npy')
 #         model.fit(data, data, validation_split=0.1, epochs=5)
 #
 #     print('epoch ', epoch, 'end')
-model.fit(raw_data, raw_data, validation_split=0.05, epochs=15)
+model.fit(raw_data, raw_data, validation_split=0.05, epochs=120)
 
 model.save(con.model_encoder)
