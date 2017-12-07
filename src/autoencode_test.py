@@ -12,7 +12,7 @@ from keras.callbacks import Callback
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_file = test_files[1]
+test_file = test_files[0]
 
 frame = con.fr // 4
 
