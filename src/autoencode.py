@@ -12,27 +12,46 @@ from keras.layers.convolutional import Conv1D, UpSampling1D
 from keras.layers.pooling import MaxPooling1D
 from keras.optimizers import Adam
 
-frame = con.fr // 4
+frame = 2 ** 14
 
 if os.path.exists(con.model_encoder):
     model = load_model(con.model_encoder)
 else:
     model = Sequential()
-    model.add(Conv1D(64, 8, padding='same', input_shape=(frame, 2), activation='relu'))
-    model.add(MaxPooling1D(5, padding='same'))
-    model.add(Conv1D(64, 8, padding='same', activation='relu'))
-    model.add(MaxPooling1D(5, padding='same'))
+    model.add(Conv1D(32, 4, padding='same', input_shape=(frame, 2), activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
     model.add(Conv1D(64, 4, padding='same', activation='relu'))
-    model.add(MaxPooling1D(3, padding='same'))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(MaxPooling1D(2, padding='same'))
     model.add(Conv1D(32, 4, padding='same', activation='relu'))
-    model.add(MaxPooling1D(3, padding='same'))
+    model.add(MaxPooling1D(2, padding='same'))
     model.add(Conv1D(16, 4, padding='same', activation='relu'))
-    model.add(UpSampling1D(3))
+    model.add(MaxPooling1D(2, padding='same'))
+    model.add(Conv1D(16, 4, padding='same', activation='sigmoid'))
+    model.add(UpSampling1D(2))
     model.add(Conv1D(32, 4, padding='same', activation='relu'))
-    model.add(UpSampling1D(3))
+    model.add(UpSampling1D(2))
     model.add(Conv1D(64, 4, padding='same', activation='relu'))
-    model.add(Conv1D(50, 8, padding='same', activation='tanh'))
-    model.add(Reshape((frame, 2)))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(UpSampling1D(2))
+    model.add(Conv1D(64, 4, padding='same', activation='relu'))
+    model.add(Conv1D(2, 4, padding='same', activation='tanh'))
 
 model.compile(loss='mse', optimizer='adam')
 
