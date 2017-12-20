@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('/notebooks')
+
 import wave
 import struct
 import glob
@@ -18,8 +21,6 @@ def get_dataset(filename):
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
     X = np.reshape(X, (-1, con.fr // 2))
-    #print(X.shape)
-    #print(len(X))
     return X
 
 arr = []

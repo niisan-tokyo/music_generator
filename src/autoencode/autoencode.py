@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('/notebooks')
+
 import wave
 import struct
 import glob
@@ -48,6 +51,6 @@ raw_data = np.load('/data/input/raw_wave.npy')
 #         model.fit(data, data, validation_split=0.1, epochs=5)
 #
 #     print('epoch ', epoch, 'end')
-model.fit(raw_data, raw_data, validation_split=0.05, epochs=45)
+model.fit(raw_data, raw_data, validation_split=0.05, epochs=con.epochs)
 
 model.save(con.model_encoder)

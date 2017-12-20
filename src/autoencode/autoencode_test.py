@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import sys
+sys.path.append('/notebooks')
+
 import wave
 import struct
 import glob
