@@ -28,18 +28,18 @@ if os.path.exists(con.model_encoder):
 else:
     model = Sequential()
     model.add(Dense(512, activation='sigmoid', input_dim=con.fr // 2))
-    model.add(Dense(con.fr // 2, activation='tanh'))
+    model.add(Dense(con.fr // 2))
 
 model.compile(loss='mse', optimizer='adam')
 
-#raw_data = np.load('/data/input/raw_wave.npy')
-arr = []
-for file in test_files:
-    arr.append(get_dataset(file))
+raw_data = np.load('/data/input/raw_wave.npy')
+#arr = []
+#for file in test_files:
+#    arr.append(get_dataset(file))
 
-raw_data = np.array(arr)
-raw_data = np.reshape(raw_data, (-1, con.fr // 2))
-np.random.shuffle(raw_data)
+#raw_data = np.array(arr)
+#raw_data = np.reshape(raw_data, (-1, con.fr // 2))
+#np.random.shuffle(raw_data)
 
 # for epoch in range(5):
 #     for filename in test_files:

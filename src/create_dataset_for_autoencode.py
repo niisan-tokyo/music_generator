@@ -8,7 +8,7 @@ from scipy import fromstring, int16
 import numpy as np
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[:4]
+test_files = test_files[:7]
 
 def get_dataset(filename):
     wavfile = filename
