@@ -17,9 +17,9 @@ else:
     model = Sequential()
     model.add(Conv1D(512, 4, padding='causal', input_shape=(40, 512), activation='relu'))
     model.add(MaxPooling1D(2, padding='same'))
-    model.add(Conv1D(512, 4, padding='causal'))
+    model.add(Conv1D(512, 4, padding='causal', activation='relu'))
     model.add(MaxPooling1D(2, padding='same'))
-    model.add(Conv1D(512, 4, padding='causal'))
+    model.add(Conv1D(512, 4, padding='causal', activation='relu'))
     model.add(MaxPooling1D(2, padding='same'))
     model.add(Conv1D(512, 4, padding='causal'))
 
@@ -33,4 +33,6 @@ print(model.summary())
 print(in_data.shape)
 print(out_data.shape)
 
-model.fit(in_data, out_data, validation_split=0.05, epochs=2)
+model.fit(in_data, out_data, validation_split=0.05, epochs=20)
+
+model.save(con.model_composer)
