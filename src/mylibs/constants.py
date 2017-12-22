@@ -12,7 +12,7 @@ batch_num = samples * 256
 span = batch_num + 100
 dims = 4 * EN
 neuron = 256
-epochs = 100
+epochs = 30
 local_epocks = 150
 
 # フーリエのよくわからない因子
