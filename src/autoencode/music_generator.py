@@ -22,7 +22,7 @@ first step:
 
 We get wave data from a wav file.
 '''
-wr = wave.open('/data/input/battle2.wav', "rb")
+wr = wave.open('/data/input/battle1.wav', "rb")
 origin = wr.readframes(wr.getnframes())
 data = origin[:con.fr * 4 * 30]
 wr.close()

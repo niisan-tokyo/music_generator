@@ -32,6 +32,6 @@ print(model.summary())
 print(in_data.shape)
 print(out_data.shape)
 
-model.fit(in_data, out_data, validation_split=0.05, epochs=4)
+model.fit(in_data, out_data, validation_split=0.05, epochs=40)
 
 model.save(con.model_composer)
