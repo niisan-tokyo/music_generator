@@ -13,8 +13,8 @@ from keras.layers.core import Reshape
 from keras.layers.convolutional import Conv1D
 from keras.layers.pooling import MaxPooling1D
 
-if os.path.exists(con.model_composer):
-    model = load_model(con.model_composer)
+if os.path.exists(con.model_composer_lstm):
+    model = load_model(con.model_composer_lstm)
 else:
     model = Sequential()
     model.add(LSTM(256, input_shape=(40, 512), return_sequences=True, activation='relu'))
@@ -34,4 +34,4 @@ print(out_data.shape)
 
 model.fit(in_data, out_data, validation_split=0.05, epochs=40)
 
-model.save(con.model_composer)
+model.save(con.model_composer_lstm)

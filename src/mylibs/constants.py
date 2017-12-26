@@ -22,4 +22,5 @@ inverse_fourier_factor = 10
 # モデル名
 model_name = '/data/model/localize_113times'
 model_encoder = '/data/model/autoencoder'
-model_composer = '/data/model/composer'
+model_composer_lstm = '/data/model/composer'
+model_composer_conv1d = '/data/model/composer_conv1d'

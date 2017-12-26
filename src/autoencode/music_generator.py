@@ -15,14 +15,14 @@ from keras import backend as K
 generator  = load_model(con.model_encoder)
 encoder = K.function([generator.layers[0].input], [generator.layers[0].output])
 decoder = K.function([generator.layers[1].input], [generator.layers[1].output])
-composer = load_model(con.model_composer)
+composer = load_model(con.model_composer_lstm)
 
 '''
 first step:
 
 We get wave data from a wav file.
 '''
-wr = wave.open('/data/input/battle1.wav', "rb")
+wr = wave.open('/data/input/battle2.wav', "rb")
 origin = wr.readframes(wr.getnframes())
 data = origin[:con.fr * 4 * 30]
 wr.close()
