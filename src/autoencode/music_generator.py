@@ -13,8 +13,8 @@ from keras.models import Sequential, load_model
 from keras import backend as K
 
 generator  = load_model(con.model_encoder)
-encoder = K.function([generator.layers[0].input], [generator.layers[0].output])
-decoder = K.function([generator.layers[1].input], [generator.layers[1].output])
+encoder = K.function([generator.layers[1].input], [generator.layers[1].output])
+decoder = K.function([generator.layers[2].input], [generator.layers[2].output])
 composer = load_model(con.model_composer_lstm)
 
 '''

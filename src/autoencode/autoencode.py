@@ -11,6 +11,7 @@ import numpy as np
 import os.path
 from keras.models import Sequential, load_model
 from keras.layers import Dense, LSTM, Dropout
+from keras.layers.noise import GaussianNoise
 from keras.callbacks import Callback
 from keras import backend as K
 
@@ -30,10 +31,12 @@ if os.path.exists(con.model_encoder):
     model = load_model(con.model_encoder)
 else:
     model = Sequential()
-    model.add(Dense(512, activation='sigmoid', input_dim=con.fr // 2))
+    model.add(GaussianNoise(stddev=0.1, input_shape=tuple([con.fr // 2])))
+    model.add(Dense(512, activation='sigmoid'))
     model.add(Dense(con.fr // 2))
 
 model.compile(loss='mse', optimizer='adam')
+model.summary()
 
 raw_data = np.load('/data/input/raw_wave.npy')
 #arr = []

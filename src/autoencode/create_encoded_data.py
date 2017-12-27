@@ -16,7 +16,7 @@ test_files = glob.glob('/data/input/*.wav')
 test_files = test_files[:7]
 
 model = load_model(con.model_encoder)
-inter_model = K.function([model.layers[0].input], [model.layers[0].output])
+inter_model = K.function([model.layers[1].input], [model.layers[1].output])
 
 def get_dataset(filename):
     wavfile = filename
