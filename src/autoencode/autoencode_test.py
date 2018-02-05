@@ -15,7 +15,7 @@ from keras.callbacks import Callback
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[7]
+test_files = test_files[4]
 
 def get_dataset(filename):
     wavfile = filename
