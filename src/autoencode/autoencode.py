@@ -15,27 +15,15 @@ from keras.layers.noise import GaussianNoise
 from keras.callbacks import Callback
 from keras import backend as K
 
-test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[:2]
-
-def get_dataset(filename):
-    wavfile = filename
-    wr = wave.open(wavfile, "rb")
-    origin = wr.readframes(wr.getnframes())
-    data = origin[:con.fr * 4 * 270]
-    wr.close()
-    X = np.frombuffer(data, dtype="int16") / 32768.0
-    return X
-
 if os.path.exists(con.model_encoder):
     model = load_model(con.model_encoder)
 else:
     model = Sequential()
     model.add(GaussianNoise(stddev=0.1, input_shape=tuple([con.fr // 2])))
-    model.add(Dense(512, activation='sigmoid'))
-    model.add(Dense(con.fr // 2))
+    model.add(Dense(512, activation='sigmoid',use_bias=False, input_dim=con.fr // 2))
+    model.add(Dense(con.fr // 2, activation='tanh', use_bias=False))
 
-model.compile(loss='mse', optimizer='adam')
+model.compile(loss='mae', optimizer='adam')
 model.summary()
 
 raw_data = np.load('/data/input/raw_wave.npy')

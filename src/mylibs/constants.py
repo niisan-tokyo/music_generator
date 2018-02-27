@@ -12,7 +12,7 @@ batch_num = samples * 256
 span = batch_num + 100
 dims = 4 * EN
 neuron = 256
-epochs = 10
+epochs = 20
 local_epocks = 150
 
 # フーリエのよくわからない因子
@@ -21,6 +21,6 @@ inverse_fourier_factor = 10
 
 # モデル名
 model_name = '/data/model/localize_113times'
-model_encoder = '/data/model/autoencoder'
+model_encoder = '/data/model/autoencoder2'
 model_composer_lstm = '/data/model/composer'
 model_composer_conv1d = '/data/model/composer_conv1d'

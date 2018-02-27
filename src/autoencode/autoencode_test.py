@@ -15,13 +15,13 @@ from keras.callbacks import Callback
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[4]
+test_files = test_files[0]
 
 def get_dataset(filename):
     wavfile = filename
     wr = wave.open(wavfile, "rb")
     origin = wr.readframes(wr.getnframes())
-    data = origin[:con.fr * 4 * 180]
+    data = origin[:con.fr * 4 * 60]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
     X = np.reshape(X, (-1, con.fr // 2))

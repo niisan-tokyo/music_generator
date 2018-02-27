@@ -13,7 +13,7 @@ from keras.models import Sequential, load_model
 from keras import backend as K
 
 test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[:7]
+test_files = test_files[:2]
 
 model = load_model(con.model_encoder)
 inter_model = K.function([model.layers[1].input], [model.layers[1].output])
