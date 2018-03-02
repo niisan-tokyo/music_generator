@@ -17,9 +17,14 @@ level = importlib.import_module(name)
 level.model.compile(loss='mse', optimizer='adam')
 level.model.summary()
 
+if (len(sys.argv) > 2):
+    epochs = int(sys.argv[2])
+else:
+    epochs = level.epochs
+
 raw_data = np.load(level.train_filename)
 print(raw_data.shape)
 
-level.model.fit(raw_data, raw_data, validation_split=0.05, epochs=level.epochs)
+level.model.fit(raw_data, raw_data, validation_split=0.05, epochs=epochs)
 
 level.model.save(level.encoder_file)

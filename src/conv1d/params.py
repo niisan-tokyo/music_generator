@@ -29,4 +29,6 @@ l2_first_filters = 16
 l2_second_strides = 3
 l2_second_filters = 32
 
+l2_final_filters = 16
+
 l2_epochs = 100

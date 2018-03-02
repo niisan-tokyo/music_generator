@@ -20,5 +20,5 @@ print('timestep reduce factor: %d' % (par.l2_first_strides * par.l2_second_strid
 print('filter nums: %d' % (par.l2_second_filters))
 
 timestep = par.l2_input_shape[0] / (par.l2_first_strides * par.l2_second_strides)
-print('output dim: (%d, %d)' % (timestep, par.l2_second_filters))
-print('total params num: %d' % (timestep * par.l2_second_filters))
+print('output dim: (%d, %d)' % (timestep, par.l2_final_filters))
+print('total params num: %d' % (timestep * par.l2_final_filters))

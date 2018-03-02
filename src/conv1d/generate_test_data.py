@@ -6,7 +6,7 @@ import params as par
 import numpy as np
 
 l1_testfiles = glob.glob(par.l1_encoded_dir + '*')
-l1_testfiles = l1_testfiles[:3]
+l1_testfiles = l1_testfiles[:6]
 
 temps = []
 for filename in l1_testfiles:
