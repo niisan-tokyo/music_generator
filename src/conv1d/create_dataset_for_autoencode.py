@@ -10,7 +10,7 @@ import os.path
 from scipy import fromstring, int16
 import numpy as np
 
-test_files = glob.glob('/data/input/*.wav')
+test_files = glob.glob('/home/ec2-user/music_generator/data/input/*.wav')
 test_files = test_files[:1]
 
 def get_dataset(filename):

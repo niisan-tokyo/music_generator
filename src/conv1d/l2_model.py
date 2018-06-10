@@ -20,16 +20,16 @@ if os.path.exists(par.l2_encoder_filename):
     model = load_model(par.l2_encoder_filename)
 else:
     model = Sequential()
-    model.add(Conv1D(par.l2_first_filters, 7, padding='same', input_shape=par.l2_input_shape, activation='relu'))
+    model.add(Conv1D(par.l2_first_filters, 14, padding='same', input_shape=par.l2_input_shape, activation='relu'))
     model.add(MaxPooling1D(par.l2_first_strides))
-    model.add(Conv1D(par.l2_second_filters, 7, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
     model.add(MaxPooling1D(par.l2_second_strides))
-    model.add(Conv1D(par.l2_second_filters, 7, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l2_second_strides))
-    model.add(Conv1D(par.l2_second_filters, 7, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l2_first_strides))
-    model.add(Conv1D(par.l2_second_filters, 7, padding='same', activation='relu'))
-    model.add(Conv1D(par.l1_second_filters, 8, padding='same'))
+    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
+    model.add(Conv1D(par.l1_second_filters, 16, padding='same'))
 
 train_filename = par.l2_train_filename
 epochs = par.l2_epochs

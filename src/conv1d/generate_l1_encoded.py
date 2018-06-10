@@ -14,7 +14,7 @@ from keras.layers import Dense, LSTM, Dropout
 from keras.callbacks import Callback
 from keras import backend as K
 
-test_files = glob.glob('/data/input/*.wav')
+test_files = glob.glob('/home/ec2-user/music_generator/data/input/*.wav')
 
 def get_dataset(filename):
     wavfile = filename
