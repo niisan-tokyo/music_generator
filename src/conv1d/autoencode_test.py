@@ -14,8 +14,9 @@ from keras.layers import Dense, LSTM, Dropout
 from keras.callbacks import Callback
 from keras import backend as K
 
-test_files = glob.glob('/data/input/*.wav')
-test_files = test_files[1]
+test_files = glob.glob(par.base_data + 'input/*.wav')
+print(test_files)
+test_files = test_files[3]
 
 def get_dataset(filename):
     wavfile = filename
@@ -39,13 +40,13 @@ res = []
 
 temp = level1.encoder([data])
 temp = level2.encoder([temp[0]])
-temp =level2.decoder([temp[0]])
+temp = level2.decoder([temp[0]])
 res = level1.decoder([temp[0]])
 
 row_data = np.array(res)
 mdata = np.reshape(res, (-1)) * 32768
 mdata = mdata.astype('int16')
-outf = '/data/output/test.wav'
+outf = par.base_data + 'output/test.wav'
 outd = struct.pack("h" * len(mdata), *mdata)
 ww = wave.open(outf, 'w')
 ww.setnchannels(2)

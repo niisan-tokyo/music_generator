@@ -24,16 +24,18 @@ else:
     model.add(MaxPooling1D(par.l2_first_strides))
     model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
     model.add(MaxPooling1D(par.l2_second_strides))
-    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_third_filters, 14, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_final_filters, 14, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_third_filters, 14, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l2_second_strides))
     model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l2_first_strides))
-    model.add(Conv1D(par.l2_second_filters, 14, padding='same', activation='relu'))
+    model.add(Conv1D(par.l2_first_filters, 14, padding='same', activation='relu'))
     model.add(Conv1D(par.l1_second_filters, 16, padding='same'))
 
 train_filename = par.l2_train_filename
 epochs = par.l2_epochs
 encoder_file = par.l2_encoder_filename
 
-encoder = K.function([model.layers[0].input], [model.layers[2].output])
-decoder = K.function([model.layers[3].input], [model.layers[5].output])
+encoder = K.function([model.layers[0].input], [model.layers[5].output])
+decoder = K.function([model.layers[5].input], [model.layers[11].output])
