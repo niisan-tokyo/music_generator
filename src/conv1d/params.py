@@ -13,6 +13,7 @@ l1_encoder_filename = base_data + 'model/convl1encoded'
 l1_train_filename = base_data + 'input/l1_encoded_wav.npy'
 l1_encoded_dir = base_data + 'input/conv_l1/'
 l1_input_length = fr // 2
+l1_channel_size = 2
 
 l1_first_strides = 7
 l1_first_filters = 8

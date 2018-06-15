@@ -20,13 +20,13 @@ if os.path.exists(par.l1_encoder_filename):
     model = load_model(par.l1_encoder_filename)
 else:
     model = Sequential()
-    model.add(Conv1D(par.l1_first_filters, 7, strides=par.l1_first_strides, padding='same', input_shape=(par.l1_input_length, 1), activation='relu'))
+    model.add(Conv1D(par.l1_first_filters, 7, strides=par.l1_first_strides, padding='same', input_shape=(par.l1_input_length, par.l1_channel_size), activation='relu'))
     model.add(Conv1D(par.l1_second_filters, 7, strides=par.l1_second_strides, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l1_first_strides))
     model.add(Conv1D(par.l1_second_filters, 7, padding='same', activation='relu'))
     model.add(UpSampling1D(par.l1_second_strides))
     model.add(Conv1D(par.l1_second_filters, 7, padding='same', activation='relu'))
-    model.add(Conv1D(1, 8, padding='same', activation='tanh'))
+    model.add(Conv1D(par.l1_channel_size, 8, padding='same', activation='tanh'))
 
 train_filename = par.l1_train_filename
 epochs = par.l1_epochs

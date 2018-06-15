@@ -25,7 +25,7 @@ def get_dataset(filename):
     data = origin[:par.fr * 4 * 30]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
-    X = np.reshape(X, (-1, par.l1_input_length, 1))
+    X = np.reshape(X, (-1, par.l1_input_length, par.l1_channel_size))
     #print(X.shape)
     #print(len(X))
     return X
@@ -39,8 +39,8 @@ res = []
 #    res.append(model.predict(np.reshape(datum, (1, par.l1_input_length, 1))))
 
 temp = level1.encoder([data])
-temp = level2.encoder([temp[0]])
-temp = level2.decoder([temp[0]])
+#temp = level2.encoder([temp[0]])
+#temp = level2.decoder([temp[0]])
 res = level1.decoder([temp[0]])
 
 row_data = np.array(res)
