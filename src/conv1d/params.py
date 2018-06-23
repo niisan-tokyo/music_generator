@@ -5,21 +5,21 @@ frst = fr * 2 # stereo
 
 import os
 
-base_src = os.getenv('BASE_SRC', '/notebooks/')
-base_data = os.getenv('BASE_DATA', '/data/')
+base_src = os.getenv('BASE_SRC', '/Users/niiku/Documents/project/music_generator/src/')
+base_data = os.getenv('BASE_DATA', '/Users/niiku/Documents/project/music_generator/data/')
 
 # param for level1
-l1_encoder_filename = base_data + 'model/convl1encoded'
+l1_encoder_filename = base_data + 'model/convl1encoded_linear'
 l1_train_filename = base_data + 'input/l1_encoded_wav.npy'
 l1_encoded_dir = base_data + 'input/conv_l1/'
 l1_input_length = fr // 2
 l1_channel_size = 2
 
-l1_first_strides = 7
-l1_first_filters = 8
+l1_first_strides = 21
+l1_first_filters = 32
 
-l1_second_strides = 7
-l1_second_filters = 16
+l1_second_strides = 14
+l1_second_filters = 32
 
 l1_epochs = 20
 
@@ -40,3 +40,5 @@ l2_final_filters = 16
 #l2_final_filters = 32
 
 l2_epochs = 100
+
+l3_encoder_filename = base_data + 'model/convl3encoded'

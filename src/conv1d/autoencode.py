@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 sys.path.append('/notebooks')
-
+import yaml
 import wave
 import struct
 import glob
@@ -20,8 +20,8 @@ else:
     optimizer = 'adam'
 
 level = importlib.import_module(name)
-level.model.compile(loss='mse', optimizer=optimizer)
 level.model.summary()
+level.model.compile(loss='mse', optimizer=optimizer)
 
 f = open('model.json', 'w')
 f.write(level.model.to_json())
