@@ -11,7 +11,7 @@ from scipy import fromstring, int16
 import numpy as np
 
 test_files = glob.glob(par.base_data + 'input/*.wav')
-test_files = test_files[:2]
+test_files = test_files[:3]
 
 def get_dataset(filename):
     wavfile = filename
@@ -19,7 +19,7 @@ def get_dataset(filename):
     origin = wr.readframes(wr.getnframes())
     data = origin[:par.fr * 4 * 180]
     wr.close()
-    X = np.frombuffer(data, dtype="int16")/ 32768.0
+    X = np.frombuffer(data, dtype="int16")/ (par.bit_depth * 1.0)
 
     term = par.l1_input_length * par.l1_channel_size // 4
     num = 0

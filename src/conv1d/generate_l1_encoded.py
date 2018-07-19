@@ -23,15 +23,18 @@ def get_dataset(filename):
     data = origin[:par.fr * 4 * 240]
     wr.close()
     X = np.frombuffer(data, dtype="int16")/ 32768.0
-    X = np.reshape(X, (-1, par.l1_input_length, 1))
+    X = np.reshape(X, (-1, par.l1_input_length, par.l1_channel_size))
     return X
 
 import l1_model as level1
+
+print(test_files)
 
 for filename in test_files:
     data = get_dataset(filename)
     output = level1.encoder([data])
     savename = re.sub('.*\/', '', filename).replace('.wav', '.npy')
+    savename = re.sub('.*\\\\', '', savename)
     print(savename)
     print(output[0].shape)
     np.save(par.l1_encoded_dir + savename, output[0])

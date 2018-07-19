@@ -9,6 +9,7 @@ import os.path
 import importlib
 import numpy as np
 from keras.callbacks import ModelCheckpoint
+from keras.optimizers import Adam
 
 name = sys.argv[1] + '_model'
 if (os.path.exists(name + '.py') == False):
@@ -18,6 +19,7 @@ if (len(sys.argv) > 3):
     optimizer = sys.argv[3]
 else:
     optimizer = 'adam'
+    #optimizer = Adam(lr=0.03)
 
 level = importlib.import_module(name)
 level.model.summary()
