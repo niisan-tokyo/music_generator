@@ -44,3 +44,6 @@ l2_final_filters = 16
 l2_epochs = 100
 
 l3_encoder_filename = base_data + 'model/convl3encoded9'
+
+input_second = 8 * 2
+output_second = 2 * 2
