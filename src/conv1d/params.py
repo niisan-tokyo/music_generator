@@ -47,3 +47,12 @@ l3_encoder_filename = base_data + 'model/convl3encoded9'
 
 input_second = 8 * 2
 output_second = 2 * 2
+
+encodedfile_for_test = {
+    'x_train': base_data + 'input/encoded_waves.npy',
+    'y_train': base_data + 'input/encoded_waves_label.npy',
+    'x_test': base_data + 'input/encoded_waves_test.npy',
+    'y_test': base_data + 'input/encoded_waves_test_label.npy'
+}
+
+generator_model = base_data + 'model/generator'

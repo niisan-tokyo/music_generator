@@ -26,7 +26,7 @@ def get_dataset(filename):
     X = np.reshape(X, (-1, par.l1_input_length, par.l1_channel_size))
     return X
 
-import l1_model as level1
+import l3_model as level1
 
 print(test_files)
 

@@ -47,3 +47,8 @@ print(loadeddata[3].shape)
 # print(l1_train_data.shape)
 # np.random.shuffle(l1_train_data)
 # np.save(par.l2_train_filename, l1_train_data)
+
+outputfiles = par.encodedfile_for_test
+list_order = ['x_train', 'y_train', 'x_test', 'y_test']
+for i in range(len(list_order)):
+    np.save(outputfiles[list_order[i]], loadeddata[i])
