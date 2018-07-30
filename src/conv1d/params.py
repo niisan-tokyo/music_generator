@@ -3,7 +3,7 @@
 fr = 44100    # frame rate
 frst = fr * 2 # stereo
 
-bit_depth = 2**10
+bit_depth = 2**15
 
 import os
 
@@ -43,7 +43,7 @@ l2_final_filters = 16
 
 l2_epochs = 100
 
-l3_encoder_filename = base_data + 'model/convl3encoded9'
+l3_encoder_filename = base_data + 'model/convl3encoded12'
 
 input_second = 8 * 2
 output_second = 2 * 2
